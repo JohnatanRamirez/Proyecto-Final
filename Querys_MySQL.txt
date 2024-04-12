@@ -1,0 +1,83 @@
+DROP TABLE IF EXISTS `airport`;
+CREATE TABLE `airport` (
+`faa` varchar(10),
+`name` varchar(100),
+`lat` real,
+`lon` real,
+`alt` int,
+`tz` int,
+`dst` varchar(10),
+`tzone` varchar(100),
+  PRIMARY KEY (`faa`)
+);
+
+DROP TABLE IF EXISTS `planes`;
+CREATE TABLE `planes` (
+`tailnum` varchar(50),
+`year` varchar(50),
+`type` varchar(100),
+`manufacturer` varchar(100),
+`model` varchar(100),
+`engines` int,
+`seats` int,
+`speed` varchar(100),
+`engine` varchar(100),
+  PRIMARY KEY (`tailnum`)
+);
+
+DROP TABLE IF EXISTS `weather`;
+CREATE TABLE `weather` (
+`origin` varchar(10),
+`year` int,
+`month` int,
+`day` int,
+`hour` int,
+`temp` real,
+`dewp` real,
+`humid` real,
+`wind_dir` int,
+`wind_speed` real,
+`wind_gust` varchar(10),
+`precip` real,
+`pressure` real,
+`visib` real,
+`time_hour` varchar(50),
+  PRIMARY KEY (`year`,`month`,`day`,`hour`,`origin`)
+);
+
+DROP TABLE IF EXISTS `airlines`;
+CREATE TABLE `airlines` (
+`carrier` varchar(10),
+`name` varchar(50),
+  PRIMARY KEY (`carrier`)
+);
+
+DROP TABLE IF EXISTS `flights`;
+CREATE TABLE `flights` (
+`year` int,
+`month` int,
+`day` int,
+`dep_time` varchar(10),
+`sched_dep_time` int,
+`dep_delay` varchar(10),
+`arr_time` varchar(10),
+`sched_arr_time` int,
+`arr_delay` varchar(10),
+`carrier` varchar(10),
+`flight` int,
+`tailnum` varchar(50),
+`origin` varchar(10),
+`dest` varchar(10),
+`air_time` varchar(10),
+`distance` int,
+`hour` int,
+`minute` int,
+`time_hour` varchar(50)
+);
+
+ALTER TABLE db_proyecto_final.flights ADD CONSTRAINT flights_planes_FK FOREIGN KEY (tailnum) REFERENCES db_proyecto_final.planes(tailnum);
+ALTER TABLE db_proyecto_final.flights ADD CONSTRAINT flights_airlines_FK FOREIGN KEY (carrier) REFERENCES db_proyecto_final.airlines(carrier);
+ALTER TABLE db_proyecto_final.flights ADD CONSTRAINT flights_weather_FK FOREIGN KEY (`year`,`month`,`day`,`hour`,origin) REFERENCES db_proyecto_final.weather(`year`,`month`,`day`,`hour`,origin);
+ALTER TABLE db_proyecto_final.flights ADD CONSTRAINT flights_airport_FK FOREIGN KEY (origin) REFERENCES db_proyecto_final.airport(faa);
+
+select * from airport a  ;
